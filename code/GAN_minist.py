@@ -174,8 +174,8 @@ if __name__ == '__main__':
         print(d_stats.history, a_stats.history)
 
         # Plot real and fake images
-        plot_images('Real images', x_train[np.random.randint(0, x_train.shape[0], size=40), :, :, :])
-        plot_images('Fake images', generator.predict(np.random.uniform(-1.0, 1.0, size=[40, 100])))
+        plot_images('Real_images', x_train[np.random.randint(0, x_train.shape[0], size=40), :, :, :])
+        plot_images('Fake_images', generator.predict(np.random.uniform(-1.0, 1.0, size=[40, 100])))
 
         # plot loss and acc
         fig, (ax1, ax2) = plt.subplots(1, 2)
