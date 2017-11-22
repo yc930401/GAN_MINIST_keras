@@ -6,10 +6,6 @@ Generate MINST digits using generative adversary networks
 I have tried many discriminative models previously using CNN. And this time, I tried aa generrative model, called Generative Adversary Networks. This is a very interesting network, oh, two networks actually. One is used to generate fake images that looks like the reall images, the other is used to distinguish the two kind of images. The generator proformance improve while training until the discriminator cannot distinguish between fake images and real ones. </br>
 This is how Ian J. GoodFellow wrote in his paper: </br>
 > In the proposed adversarial nets framework, the generative model is pitted against an adversary: a discriminative model that learns to determine whether a sample is from the model distribution or the data distribution. The generative model can be thought of as analogous to a team of counterfeiters, trying to produce fake currency and use it without detection, while the discriminative model is analogous to the police, trying to detect the counterfeit currency. Competition in this game drives both teams to improve their methods until the counterfeits are indistiguishable from the genuine articles.
-#### Generator
-![GAN](/Generator.png) </br>
-#### Discriminator
-![GAN](/Discriminator.png) </br>
 
 ## Methodology
 
