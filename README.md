@@ -20,9 +20,9 @@ This is how Ian J. GoodFellow wrote in his paper: </br>
 
 I trained the network 14 hours on my own PC. It is getting better and better, but more time is needed to train a better generator. I post it here first. </br>
 #### Real images
-![GAN](/code/Real images.png) </br>
+![GAN](/code/Real_images.png) </br>
 #### Fake images
-![GAN](/code/Fake images.png) </br>
+![GAN](/code/Fake_images.png) </br>
 
 ## References
 https://www.wouterbulten.nl/blog/tech/getting-started-with-generative-adversarial-networks/
