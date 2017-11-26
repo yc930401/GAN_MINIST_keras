@@ -22,11 +22,16 @@ This is how Ian J. GoodFellow wrote in his paper: </br>
 
 ## Result
 
-I trained the network 14 hours on my own PC. It is getting better and better, but more time is needed to train a better generator. I post it here first. </br>
+I trained the network two days on my own PC. It is getting better and better, but more time is needed to train a better generator. I post it here first. </br>
 #### Real images
 ![GAN](/code/Real_images.png) </br>
 #### Fake images
 ![GAN](/code/Fake_images.png) </br>
+
+## Analysis
+
+The Network structure I use here is a little bit different from the posts in the references. When I tried to use RMSprop as discriminator optimizer, it learns very slowly. So I change it to Adam and decrease the learning rate. I also find that the model overfit the training example and cannot generaalize well to validate data. The original post does not use validation dataset. Therefore, I use a arger dropout rate and add more dropout layers. </br>
+Another thing I found is that GAN is not very robust. Sometimes the generator can generate better images, but sometimes it can not.
 
 ## References
 https://www.wouterbulten.nl/blog/tech/getting-started-with-generative-adversarial-networks/
