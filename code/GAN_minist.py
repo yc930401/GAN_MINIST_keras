@@ -10,12 +10,14 @@ from keras.optimizers import Adam
 from keras.datasets import mnist
 from keras.models import load_model
 
-generator_epochs = 15
-discriminator_epochs = 4
+generator_epochs = 40
+discriminator_epochs = 20
+generator_dropout_prob = 0.8
+discriminator_dropout_prob = 0.8
 data_size = 256
 batch_size = 128
 iterations = 500
-dropout_prob = 0.5
+
 
 def discriminator():
     model = Sequential()
@@ -26,15 +28,15 @@ def discriminator():
 
     model.add(Conv2D(128, 5, strides=2, padding='same'))
     model.add(LeakyReLU())
-    model.add(Dropout(dropout_prob))
+    model.add(Dropout(discriminator_epochs))
 
     model.add(Conv2D(256, 5, strides=2, padding='same'))
     model.add(LeakyReLU())
-    model.add(Dropout(dropout_prob))
+    model.add(Dropout(discriminator_epochs))
 
     model.add(Conv2D(512, 5, strides=1, padding='same'))
     model.add(LeakyReLU())
-    model.add(Dropout(dropout_prob))
+    model.add(Dropout(discriminator_epochs))
 
     model.add(Flatten())
     model.add(Dense(1))
@@ -49,21 +51,24 @@ def generator():
     model.add(BatchNormalization(momentum=0.9))
     model.add(LeakyReLU())
     model.add(Reshape((7, 7, 256)))
-    model.add(Dropout(dropout_prob))
+    model.add(Dropout(generator_dropout_prob))
 
     model.add(UpSampling2D())
     model.add(Conv2D(128, 5, padding='same'))
     model.add(BatchNormalization(momentum=0.9))
     model.add(LeakyReLU())
+    model.add(Dropout(generator_dropout_prob))
 
     model.add(UpSampling2D())
     model.add(Conv2D(64, 5, padding='same'))
     model.add(BatchNormalization(momentum=0.9))
     model.add(LeakyReLU())
+    model.add(Dropout(generator_dropout_prob))
 
     model.add(Conv2D(32, 5, padding='same'))
     model.add(BatchNormalization(momentum=0.9))
     model.add(LeakyReLU())
+    model.add(Dropout(generator_dropout_prob))
 
     model.add(Conv2D(1, 5, padding='same'))
     model.add(Activation('sigmoid'))
@@ -72,6 +77,8 @@ def generator():
 
 
 def get_models(discriminator, generator):
+    for layer in discriminator.layers:
+        layer.trainable = True
     optim_discriminator = Adam(lr=0.0001, clipvalue=1.0, decay=1e-10) # RMSprop lr=0.0008
     model_discriminator = Sequential()
     model_discriminator.add(discriminator)
@@ -152,7 +159,7 @@ if __name__ == '__main__':
 
     for i in range(1, iterations + 1):
         print('================== Iteration {} ==================='.format(i))
-        discriminator_epochs = min(30, discriminator_epochs+1)
+        discriminator_epochs = min(20, discriminator_epochs+1)
         x, y = get_real_fake_data(generator, x_train, data_size)
         x_, y_ = get_real_fake_data(generator, x_test, data_size)
 
@@ -171,7 +178,7 @@ if __name__ == '__main__':
         generator.save('generator.h5')
         discriminator.save('discriminator.h5')
 
-        print(d_stats.history, a_stats.history)
+        print(len(d_stats.history['loss']), len(a_stats.history['loss']))
 
         # Plot real and fake images
         plot_images('Real_images', x_train[np.random.randint(0, x_train.shape[0], size=40), :, :, :])
